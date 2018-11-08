@@ -65,7 +65,7 @@ inputs:
   - validate_certificate_error_days:
     opts:
       title: "Error days"
-      summary: Days before certificates generate a errors
+      summary: Days before certificates generate a errors (default Warning days / 2)
       description: The number of days a certificate has left before it generates an error
       is_expand: true
       is_required: false
@@ -75,7 +75,7 @@ outputs:
   - VALIDATE_CERTIFICATES_WARNINGS:
     opts:
       title: "Certificates warnings"
-      summary: Nmber if certificates that should be updated soon.
+      summary: Nmber of certificates that should be updated soon.
       description: The number of certificates that fall below validate_certificate_days and are above validate_certificate_error_days
   - VALIDATE_CERTIFICATES_ERRORS:
     opts:
