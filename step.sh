@@ -1,5 +1,4 @@
 #!/bin/bash
-set -ex
 
 function secondsInDays () {
     seconds=$1
@@ -9,15 +8,15 @@ function secondsInDays () {
 reset=`tput sgr0`
 
 function logSuccess() {
-    echo "$(tput setaf 2)$1${reset}"
+    tput setaf 2; echo "$1"; tput sgr0
 }
 
 function logWarning() {
-    echo "$(tput setaf 3)$1${reset}"
+    tput setaf 3; echo "$1"; tput sgr0
 }
 
 function logError() {
-    echo "$(tput setaf 1)$1${reset}"
+    tput setaf 1; echo "$1"; tput sgr0
 }
 
 currentTimestamp=$(/bin/date "+%s")
@@ -52,18 +51,18 @@ while read name; do
 
     if [ "$daysRemaining" -gt "$warningDays" ]
     then
-        logSuccess "$name is good. $daysRemaining days remainig"
+        logSuccess "$name $daysRemaining days remainig"
         continue
     fi
 
     if [ "$daysRemaining" -gt "$errorDays" ]
     then
-        logWarning "$name should be updated. $daysRemaining days remainig"
+        logWarning "$name $daysRemaining days remainig"
         warnings=$((warnings+1))
         continue
     fi
 
-    logError "$name must be updated. $daysRemaining days remainig"
+    logError "$name $daysRemaining days remainig"
     errors=$((errors + 1))
 done < <(security find-certificate -a | grep '"alis"<blob>=' | cut -f2 -d= | sed -e 's/^"//' -e 's/"$//')
 
