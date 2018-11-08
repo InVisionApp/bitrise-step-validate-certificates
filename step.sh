@@ -55,12 +55,12 @@ while read name; do
 
     if [ "$daysRemaining" -gt "$errorDays" ]
     then
-        logWarning "$name $daysRemaining days remainig"
+        logWarning "$name $daysRemaining days remainig (should update)"
         warnings=$((warnings+1))
         continue
     fi
 
-    logError "$name $daysRemaining days remainig"
+    logError "$name $daysRemaining days remainig (must update)"
     errors=$((errors + 1))
 done < <(security find-certificate -a | grep '"alis"<blob>=' | cut -f2 -d= | sed -e 's/^"//' -e 's/"$//')
 
