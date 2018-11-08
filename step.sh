@@ -1,22 +1,19 @@
 #!/bin/bash
-
 function secondsInDays () {
     seconds=$1
     echo $((seconds / (60*60*24)))
 }
 
-reset=`tput sgr0`
-
 function logSuccess() {
-    tput setaf 2; echo "$1"; tput sgr0
+    echo -e "\033[0;32m$1\033[0m"
 }
 
 function logWarning() {
-    tput setaf 3; echo "$1"; tput sgr0
+    echo -e "\033[0;33m$1\033[0m"
 }
 
 function logError() {
-    tput setaf 1; echo "$1"; tput sgr0
+    echo -e "\033[0;31m$1\033[0m"
 }
 
 currentTimestamp=$(/bin/date "+%s")
@@ -31,6 +28,7 @@ fi
 
 echo "Warning Days: $warningDays"
 echo "Error Days: $errorDays"
+echo ""
 
 errors=0
 warnings=0
@@ -66,8 +64,20 @@ while read name; do
     errors=$((errors + 1))
 done < <(security find-certificate -a | grep '"alis"<blob>=' | cut -f2 -d= | sed -e 's/^"//' -e 's/"$//')
 
-echo "$warnings warnings"
-echo "$errors errors"
+echo ""
+echo "Results"
+if [ "$warnings" -gt "0" ]
+then
+    logWarning "> $warnings warnings"
+else
+    echo "> $warnings warnings"
+fi
+if [ "$errors" -gt "0" ]
+then
+    logError "> $errors errors"
+else
+    echo "> $errors errors"
+fi
 
 envman add --key VALIDATE_CERTIFICATES_WARNINGS --value "$warnings"
 envman add --key VALIDATE_CERTIFICATES_ERRORS --value "$errors"
