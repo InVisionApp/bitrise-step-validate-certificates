@@ -1,0 +1,17 @@
+# Template: https://invision-engineering.herokuapp.com/requirements/REQ009
+
+# Visibility: This needs to be public to be used with Bitrise
+visibility: public
+
+# Current and previous owners
+owner:
+  active:
+    team: craft
+    since: 2018-11-08
+  history: # This may not apply
+
+# A short description of the repository
+description: "This repo allows Bitrise to verify that certificates are valid"
+
+# Repository type: service, library, app, or tool
+type: tool
