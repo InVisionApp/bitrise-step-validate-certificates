@@ -5,15 +5,15 @@ function secondsInDays () {
 }
 
 function logSuccess() {
-    echo -e "\033[0;32m$1\033[0m"
+    echo -e "\033[32;1m$1\033[0m"
 }
 
 function logWarning() {
-    echo -e "\033[0;33m$1\033[0m"
+    echo -e "\033[33;1m$1\033[0m"
 }
 
 function logError() {
-    echo -e "\033[0;31m$1\033[0m"
+    echo -e "\033[31;1m$1\033[0m"
 }
 
 currentTimestamp=$(/bin/date "+%s")
