@@ -111,6 +111,7 @@ echo "  Warnings: $warnings"
 echo "  Errors:   $errors"
 
 envman add --key VALIDATE_CERTIFICATES_SUCCESS --value "$success"
+envman add --key VALIDATE_CERTIFICATES_IGNORED --value "$ignored"
 envman add --key VALIDATE_CERTIFICATES_WARNINGS --value "$warnings"
 envman add --key VALIDATE_CERTIFICATES_ERRORS --value "$errors"
 

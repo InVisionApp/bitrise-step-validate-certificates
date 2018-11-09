@@ -100,3 +100,8 @@ outputs:
       title: "Certificates errors"
       summary: Number of certificates that should be updated now.
       description: The number of certificates that will expire before validate_certificate_error_days
+  - VALIDATE_CERTIFICATES_IGNORED:
+    opts:
+      title: "Certificates ignored"
+      summary: Number of certificates that were ignored.
+      description: The number of certificates that were ignored by the script
