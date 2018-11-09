@@ -76,7 +76,14 @@ inputs:
       is_expand: true
       is_required: false
       value_options: []
-
+  - validate_certificate_ignore: "Bitrise Bot"
+    opts:
+      title: "Ignore Certificates"
+      summary: Ignore certificates that contain these names
+      description: A comma seperated list of names. Certificates that contain these names will be ignored.
+      is_expand: true
+      is_required: false
+      value_options: []
 outputs:
   - VALIDATE_CERTIFICATES_SUCCESS:
     opts:

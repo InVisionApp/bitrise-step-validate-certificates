@@ -17,6 +17,7 @@ workflows:
         run_if: true
         inputs: 
         - validate_certificate_key_chain_path: "~/Library/Keychains/login.keychain-db"
+        - validate_certificate_ignore: "iPhone Developer,Mac Developer"
 
     - script:
         is_always_run: true

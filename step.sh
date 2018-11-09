@@ -4,6 +4,18 @@ function secondsInDays () {
     echo $((seconds / (60*60*24)))
 }
 
+function shouldIgnore () {
+    name="$1"
+    while IFS=',' read -ra parts; do
+        for part in "${parts[@]}"; do
+            if [[ "$name" == *"$part"* ]] ; then 
+                return 1
+            fi
+        done
+    done <<< "$2"
+    return 0
+}
+
 function logSuccess() {
     echo -e "\033[32;1m$1\033[0m"
 }
@@ -31,16 +43,30 @@ if [ -n "${validate_certificate_key_chain_path}" ]; then
     eval keyChainPath="$validate_certificate_key_chain_path"
 fi 
 
+ignore=""
+if [ -n "${validate_certificate_ignore}" ]; then
+    ignore="$validate_certificate_ignore"
+fi 
+
+
 echo "Warning Days: $warningDays"
 echo "Error Days: $errorDays"
 echo "Keychain: $keyChainPath"
-echo ""
+echo "Ignore: $ignore"
 
 success=0
+ignored=0
 errors=0
 warnings=0
 
 while read name; do
+    shouldIgnore "$name" "$ignore"
+    if [ "$?" -eq "1" ] ; then
+        echo "Ignoring $name"
+        ignored=$((ignored+1))
+        continue
+    fi
+    
     certexpdate=$(/usr/bin/security find-certificate -a -c "$name" -p | /usr/bin/openssl x509 -noout -enddate| cut -f2 -d=)
     if [[ -z "$certexpdate" ]] 
     then
@@ -80,6 +106,7 @@ done < <(security find-certificate -a $keyChainPath | grep '"alis"<blob>=' | cut
 echo ""
 echo "Results"
 echo "  Success:  $success"
+echo "  Ignored:  $ignored"
 echo "  Warnings: $warnings"
 echo "  Errors:   $errors"
 
