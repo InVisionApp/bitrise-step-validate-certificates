@@ -38,11 +38,15 @@ while read name; do
     certexpdate=$(/usr/bin/security find-certificate -a -c "$name" -p | /usr/bin/openssl x509 -noout -enddate| cut -f2 -d=)
     if [[ -z "$certexpdate" ]] 
     then
+        logWarning "Could not load certificate $name"
+        warnings=$((warnings+1))
         continue
     fi
     timestamp=$(/bin/date -j -f "%b %d %T %Y %Z" "$certexpdate" "+%s")
     if [ "$?" -eq "1" ]
     then
+        logWarning "Could not load expiration date for certificate $name"
+        warnings=$((warnings+1))
         continue
     fi
     diff=$((timestamp - currentTimestamp))
