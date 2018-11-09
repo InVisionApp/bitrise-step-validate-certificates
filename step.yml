@@ -54,31 +54,36 @@ toolkit:
     entry_file: step.sh
 
 inputs:
-  - validate_certificate_days: "365"
-    opts:
-      title: "Warning days"
-      summary: Days before certificates generate a warning
-      description: The number of days a certificate has left before it generates a warning
-      is_expand: true
-      is_required: false
-      value_options: []
-  - validate_certificate_error_days:
+  - validate_certificate_error_days: 182
     opts:
       title: "Error days"
-      summary: Days before certificates generate a errors (default Warning days / 2)
+      summary: Days before certificates generate a errors 
       description: The number of days a certificate has left before it generates an error
+      is_expand: true
+      is_required: true
+      value_options: []
+  - validate_certificate_warning_days: 
+    opts:
+      title: "Warning days"
+      summary: Days before certificates generate a warning (default error days * 2)
+      description: The number of days a certificate has left before it generates a warning
       is_expand: true
       is_required: false
       value_options: []
 
 outputs:
+  - VALIDATE_CERTIFICATES_SUCCESS:
+    opts:
+      title: "Certificates success"
+      summary: Nmber of certificates that do not need to be updated.
+      description: The number of certificates that will expire after validate_certificate_days
   - VALIDATE_CERTIFICATES_WARNINGS:
     opts:
       title: "Certificates warnings"
       summary: Nmber of certificates that should be updated soon.
-      description: The number of certificates that fall below validate_certificate_days and are above validate_certificate_error_days
+      description: The number of certificates that will expire between validate_certificate_days and validate_certificate_error_days
   - VALIDATE_CERTIFICATES_ERRORS:
     opts:
       title: "Certificates errors"
       summary: Number of certificates that should be updated now.
-      description: The number of certificates that fall below validate_certificate_error_days
+      description: The number of certificates that will expire before validate_certificate_error_days

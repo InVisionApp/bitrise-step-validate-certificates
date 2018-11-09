@@ -18,18 +18,19 @@ function logError() {
 
 currentTimestamp=$(/bin/date "+%s")
 
-warningDays=${validate_certificate_days}
+errorDays=${validate_certificate_error_days}
 
-if [ -n "${validate_certificate_error_days}" ]; then
-    errorDays=${validate_certificate_error_days}
+if [ -n "${validate_certificate_warning_days}" ]; then
+    warningDays=${validate_certificate_warning_days}    
 else
-    errorDays=$((warningDays/2))
+    warningDays=$((errorDays*2))
 fi
 
 echo "Warning Days: $warningDays"
 echo "Error Days: $errorDays"
 echo ""
 
+success=0
 errors=0
 warnings=0
 
@@ -50,6 +51,7 @@ while read name; do
     if [ "$daysRemaining" -gt "$warningDays" ]
     then
         logSuccess "$name $daysRemaining days remainig"
+        success=$((success+1))
         continue
     fi
 
@@ -64,21 +66,14 @@ while read name; do
     errors=$((errors + 1))
 done < <(security find-certificate -a | grep '"alis"<blob>=' | cut -f2 -d= | sed -e 's/^"//' -e 's/"$//')
 
+
 echo ""
 echo "Results"
-if [ "$warnings" -gt "0" ]
-then
-    logWarning "> $warnings warnings"
-else
-    echo "> $warnings warnings"
-fi
-if [ "$errors" -gt "0" ]
-then
-    logError "> $errors errors"
-else
-    echo "> $errors errors"
-fi
+echo "  Success:  $success"
+echo "  Warnings: $warnings"
+echo "  Errors:   $errors"
 
+envman add --key VALIDATE_CERTIFICATES_SUCCESS --value "$success"
 envman add --key VALIDATE_CERTIFICATES_WARNINGS --value "$warnings"
 envman add --key VALIDATE_CERTIFICATES_ERRORS --value "$errors"
 
