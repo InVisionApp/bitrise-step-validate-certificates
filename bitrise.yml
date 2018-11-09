@@ -15,8 +15,6 @@ workflows:
     - path::./:
         title: Step Test
         run_if: true
-        inputs: 
-        - validate_certificate_key_chain_path: "~/Library/Keychains/login.keychain-db"
     - script:
         is_always_run: true
         inputs:
