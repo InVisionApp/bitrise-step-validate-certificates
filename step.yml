@@ -57,7 +57,7 @@ inputs:
   - validate_certificate_error_days: 182
     opts:
       title: "Error days"
-      summary: Days before certificates generate a errors 
+      summary: Days before certificates generate an errors 
       description: The number of days a certificate has left before it generates an error
       is_expand: true
       is_required: true
