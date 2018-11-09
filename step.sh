@@ -26,8 +26,14 @@ else
     warningDays=$((errorDays*2))
 fi
 
+keyChainPath=""
+if [ -n "${validate_certificate_key_chain_path}" ]; then
+    eval keyChainPath="$validate_certificate_key_chain_path"
+fi 
+
 echo "Warning Days: $warningDays"
 echo "Error Days: $errorDays"
+echo "Keychain: $keyChainPath"
 echo ""
 
 success=0
@@ -68,7 +74,7 @@ while read name; do
 
     logError "$name $daysRemaining days remainig (must update)"
     errors=$((errors + 1))
-done < <(security find-certificate -a | grep '"alis"<blob>=' | cut -f2 -d= | sed -e 's/^"//' -e 's/"$//')
+done < <(security find-certificate -a $keyChainPath | grep '"alis"<blob>=' | cut -f2 -d= | sed -e 's/^"//' -e 's/"$//')
 
 
 echo ""

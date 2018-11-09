@@ -54,6 +54,12 @@ toolkit:
     entry_file: step.sh
 
 inputs:
+  - validate_certificate_key_chain_path: "$HOME/Library/Keychains/login.keychain"
+    opts:
+      title: "Keychain Path"
+      is_expand: true
+      is_required: false
+      value_options: []
   - validate_certificate_error_days: 182
     opts:
       title: "Error days"
