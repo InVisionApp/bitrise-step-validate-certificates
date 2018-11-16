@@ -86,19 +86,19 @@ while read name; do
 
     if [ "$daysRemaining" -gt "$warningDays" ]
     then
-        logSuccess "$name $daysRemaining days remainig"
+        logSuccess "$name $daysRemaining days remaining"
         success=$((success+1))
         continue
     fi
 
     if [ "$daysRemaining" -gt "$errorDays" ]
     then
-        logWarning "$name $daysRemaining days remainig (should update)"
+        logWarning "$name $daysRemaining days remaining (should update)"
         warnings=$((warnings+1))
         continue
     fi
 
-    logError "$name $daysRemaining days remainig (must update)"
+    logError "$name $daysRemaining days remaining (must update)"
     errors=$((errors + 1))
 done < <(security find-certificate -a $keyChainPath | grep '"alis"<blob>=' | cut -f2 -d= | sed -e 's/^"//' -e 's/"$//')
 
