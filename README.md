@@ -11,7 +11,7 @@ and call `bitrise run test`.
 * **Important:** When used in a workflow this step must come after the Bitrise step [steps-certificate-and-profile-installer](https://github.com/bitrise-io/steps-certificate-and-profile-installer).
 * Input `validate_certificate_error_days`: This step will fail if a certificate has less days remaining then this value (default 182) 
 * Output `VALIDATE_CERTIFICATES_ERRORS`: This step sets this value to the number of certificates that will expire before `validate_certificate_error_days`
-* *More inputs and outputs can be found in [step.yml](step.yml)*
+* *More inputs and outputs can be found when this step is viewed in Bitrises step editor, or in [step.yml](step.yml)*
 
 ## Example Workflow
 The following can be added to your bitrise.yml to create a workflow that can be scheduled to alert a slack channel about the state of the certificates.
